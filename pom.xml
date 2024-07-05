@@ -6,7 +6,16 @@
 
     <groupId>com.rwg.qa</groupId>
     <artifactId>qa-data</artifactId>
-    <version>0.01-20240705.001</version>
+    <version>0.01-20240705.002</version>
+    <packaging>jar</packaging>
+
+    <distributionManagement>
+        <repository>
+            <id>GitHub Repository</id>
+            <name>GitHub miqa-rwg Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/miqa-rwg/qa-data</url>
+        </repository>
+    </distributionManagement>
 
     <properties>
         <maven.compiler.source>19</maven.compiler.source>
