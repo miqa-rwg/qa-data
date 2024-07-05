@@ -47,16 +47,17 @@ public class JsonConverterTest {
 
     @Test
     public void checkJsonToListOfObjects() {
-        String json = "[ {\n" +
-                "  \"key\" : \"param0\",\n" +
-                "  \"value\" : \"value0\"\n" +
-                "}, {\n" +
-                "  \"key\" : \"param1\",\n" +
-                "  \"value\" : \"value1\"\n" +
-                "}, {\n" +
-                "  \"key\" : \"param2\",\n" +
-                "  \"value\" : \"value2\"\n" +
-                "} ]";
+        String json = """
+                [ {
+                  "key" : "param0",
+                  "value" : "value0"
+                }, {
+                  "key" : "param1",
+                  "value" : "value1"
+                }, {
+                  "key" : "param2",
+                  "value" : "value2"
+                } ]""";
 
         List<RestParameter> parameters = new JsonConverter().toObject(json, new TypeReference<>(){});
 
