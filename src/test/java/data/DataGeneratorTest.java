@@ -3,6 +3,7 @@ package data;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Date;
 import java.util.logging.Logger;
 
 import static data.DataGenerator.*;
@@ -83,6 +84,32 @@ class DataGeneratorTest {
     }
 
     @Test
+    public void validateRandomPastDate() {
+        Date result = getRandomPastDate();
+        assertNotNull(result);
+        assertTrue(new Date().after(result));
+        logger.info("result = " + result);
+    }
+
+    @Test
+    public void validateRandomFutureDate() {
+        Date result = getRandomFutureDate();
+        assertNotNull(result);
+        assertTrue(new Date().before(result));
+        logger.info("result = " + result);
+    }
+
+    @Test
+    public void validateRandomCurrentDate() {
+        long initTimeInSeconds = new Date().getTime() / 1000;
+        Date result = getDate("current");
+        long resultTimeInSeconds = result.getTime() / 1000;
+        assertNotNull(result);
+        assertEquals(initTimeInSeconds, resultTimeInSeconds);
+        logger.info("result = " + result);
+    }
+
+    @Test
     public void validateCommonMethodToGetNull() {
         Object result = getValue("null");
         assertNull(result);
@@ -132,6 +159,13 @@ class DataGeneratorTest {
     public void validateCommonMethodToGetString() {
         Object result = getValue("string of latin chars");
         assertInstanceOf(String.class, result);
+        logger.info("result = " + result);
+    }
+
+    @Test
+    public void validateCommonMethodToGetDate() {
+        Object result = getValue("date");
+        assertInstanceOf(Date.class, result);
         logger.info("result = " + result);
     }
 

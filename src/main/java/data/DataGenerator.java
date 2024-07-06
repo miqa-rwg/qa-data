@@ -1,5 +1,7 @@
 package data;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Random;
 
 
@@ -16,6 +18,10 @@ public class DataGenerator {
 
     public static int getRandomIntegerInRange(int min, int max) {
         return (int) (Math.round((max - min) * Math.random()) + min);
+    }
+
+    public static long getRandomLongInRange(long min, long max) {
+        return Math.round((max - min) * Math.random()) + min;
     }
 
     public static double getRandomDoubleInRange(double min, double max, int... decimalPlaces) {
@@ -72,6 +78,48 @@ public class DataGenerator {
         return getRandomString(size, useLatinCharacters, useNumbers, useSpecialCharacters, useDiacriticCharacters, useCyrillicCharacters);
     }
 
+    public static Date getDate(String dateLabel) {
+        if (dateLabel.contains("future"))
+            return getRandomFutureDate();
+        if (dateLabel.contains("past"))
+            return getRandomPastDate();
+        if (dateLabel.contains("current"))
+            return DateUtils.currentDate();
+        return getRandomDate();
+    }
+
+    public static Date getRandomDate() {
+        int random = getRandomIntegerInRange(0, 299);
+        if (random < 100)
+            return getRandomPastDate();
+        if (random < 200)
+            return DateUtils.currentDate();
+        return getRandomFutureDate();
+    }
+
+    public static Date getRandomPastDate() {
+        long startTimestamp = DateUtils.calendarUnixTimeStart().getTimeInMillis();
+
+        Calendar yesterday = DateUtils.currentCalendar();
+        yesterday.add(Calendar.DATE, -1);
+        long endTimestamp = yesterday.getTimeInMillis();
+
+        long randomTimestamp = getRandomLongInRange(startTimestamp, endTimestamp);
+        return new Date(randomTimestamp);
+    }
+
+    public static Date getRandomFutureDate() {
+        long unixTimeStartTimestamp = DateUtils.calendarUnixTimeStart().getTimeInMillis();
+
+        Calendar nextDay = DateUtils.currentCalendar();
+        nextDay.add(Calendar.DATE, 1);
+        long startTimestamp = nextDay.getTimeInMillis();
+
+        long endTimestamp = 2 * startTimestamp - unixTimeStartTimestamp;
+        long randomTimestamp = getRandomLongInRange(startTimestamp, endTimestamp);
+        return new Date(randomTimestamp);
+    }
+
     public static Object getValue(String valueLabel) {
         if (valueLabel.contains("null"))             return null;
         if (valueLabel.contains("empty"))            return "";
@@ -80,6 +128,7 @@ public class DataGenerator {
         if (valueLabel.contains("double"))           return getRandomDoubleInRange(0., 1000., 2);
         if (valueLabel.contains("integer"))          return getRandomIntegerInRange(0, 1000);
         if (valueLabel.contains("string"))           return getRandomString(valueLabel);
+        if (valueLabel.contains("date"))             return getDate(valueLabel);
         if (valueLabel.contains("use: "))            return valueLabel.replace("use: ", "");
         throw new RuntimeException("Check please if you are using a correct label to get the data generated");
     }

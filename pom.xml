@@ -6,7 +6,7 @@
 
     <groupId>com.rwg.qa</groupId>
     <artifactId>qa-data</artifactId>
-    <version>0.01-20240705.003</version>
+    <version>0.01-20240706.001</version>
     <packaging>jar</packaging>
 
     <name>qa-data</name>
